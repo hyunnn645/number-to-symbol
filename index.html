@@ -10,7 +10,6 @@
             --container-bg: #ffffff;
             --text-main: #333333;
             --accent-color: #5a67d8;
-            --accent-hover: #434190;
         }
         body { 
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; 
@@ -37,10 +36,13 @@
             font-size: 22px;
             font-weight: 600;
         }
+        .input-row {
+            display: flex;
+            gap: 10px;
+        }
         input { 
-            width: 100%; 
+            flex: 1;
             padding: 14px; 
-            margin-bottom: 15px; 
             font-size: 16px; 
             box-sizing: border-box; 
             text-align: center; 
@@ -53,29 +55,28 @@
             outline: none;
             border-color: var(--accent-color);
         }
-        .convert-btn { 
-            width: 100%; 
-            padding: 14px; 
-            font-size: 16px; 
-            cursor: pointer; 
-            background-color: var(--accent-color); 
-            color: white; 
-            border: none; 
-            border-radius: 10px; 
-            font-weight: 600; 
+        .reset-btn {
+            padding: 0 20px;
+            font-size: 14px;
+            cursor: pointer;
+            background-color: #fee2e2;
+            color: #ef4444;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
             transition: background-color 0.2s;
+            white-space: nowrap;
         }
-        .convert-btn:hover {
-            background-color: var(--accent-hover);
+        .reset-btn:hover {
+            background-color: #fecaca;
         }
         .result-container { 
             display: flex; 
-            flex-direction: column;
             align-items: center; 
             justify-content: center; 
             gap: 15px; 
             margin-top: 30px; 
-            min-height: 80px;
+            min-height: 50px;
         }
         #result { 
             font-size: 36px; 
@@ -84,7 +85,7 @@
             font-weight: 500;
         }
         .copy-btn { 
-            padding: 8px 20px; 
+            padding: 8px 16px; 
             font-size: 14px; 
             cursor: pointer; 
             background-color: #edf2f7; 
@@ -94,6 +95,7 @@
             font-weight: 500; 
             transition: all 0.2s;
             display: none; 
+            white-space: nowrap;
         }
         .copy-btn:hover {
             background-color: #e2e8f0;
@@ -104,17 +106,20 @@
 <body>
     <div class="container">
         <h2>숫자 기호 변환기</h2>
-        <input type="text" id="inputBox" placeholder="입력 (예: 080908, 121315)" maxlength="6">
-        <button class="convert-btn" onclick="convert()">변환</button>
+        
+        <div class="input-row">
+            <input type="text" id="inputBox" placeholder="입력 (예: 080908)" maxlength="6" oninput="convert()">
+            <button class="reset-btn" onclick="resetInput()">지우기</button>
+        </div>
         
         <div class="result-container">
             <div id="result"></div>
-            <button class="copy-btn" id="copyBtn" onclick="copyText()">복사하기</button>
+            <button class="copy-btn" id="copyBtn" onclick="copyText()">복사</button>
         </div>
     </div>
 
     <script>
-        const symbols = ['⓪','①','②','③','④','⑤','⑥','⑦','⑧','⑨','⑩','⑪','⑫','⑬','⑭','⑮','⑯','⑰','⑱','⑲','⑳'];
+        const symbols = ['⓿','❶','❷','❸','❹','❺','❻','❼','❽','❾','❿','⓫','⓬','⓭','⓮','⓯','⓰','⓱','⓲','⓳','⓴'];
         
         function convert() {
             const val = document.getElementById('inputBox').value.replace(/[^0-9]/g, '');
@@ -133,6 +138,12 @@
             } else {
                 document.getElementById('copyBtn').style.display = 'none';
             }
+        }
+
+        function resetInput() {
+            document.getElementById('inputBox').value = '';
+            convert();
+            document.getElementById('inputBox').focus();
         }
 
         function copyText() {
