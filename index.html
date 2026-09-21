@@ -101,6 +101,29 @@
             background-color: #e2e8f0;
             color: #1a202c;
         }
+        
+        /* 알림창(토스트) 스타일 */
+        .toast {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #333333;
+            color: #ffffff;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 1000;
+        }
+        .toast.show {
+            opacity: 1;
+            visibility: visible;
+        }
     </style>
 </head>
 <body>
@@ -118,8 +141,12 @@
         </div>
     </div>
 
+    <!-- 복사 완료 알림창 -->
+    <div id="toast" class="toast">복사되었습니다</div>
+
     <script>
         const symbols = ['⓿','❶','❷','❸','❹','❺','❻','❼','❽','❾','❿','⓫','⓬','⓭','⓮','⓯','⓰','⓱','⓲','⓳','⓴'];
+        let toastTimeout;
         
         function convert() {
             const val = document.getElementById('inputBox').value.replace(/[^0-9]/g, '');
@@ -149,10 +176,25 @@
         function copyText() {
             const resultText = document.getElementById('result').innerText;
             navigator.clipboard.writeText(resultText).then(() => {
-                alert('복사되었습니다.');
+                showToast();
             }).catch(err => {
                 console.error('복사 실패:', err);
             });
+        }
+        
+        function showToast() {
+            const toast = document.getElementById('toast');
+            toast.classList.add('show');
+            
+            // 기존에 예약된 숨김 이벤트가 있다면 취소
+            if (toastTimeout) {
+                clearTimeout(toastTimeout);
+            }
+            
+            // 2초 뒤에 알림창 숨기기
+            toastTimeout = setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2000);
         }
     </script>
 </body>
