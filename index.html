@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>숫자 기호 변환기</title>
+    <style>
+        body { font-family: sans-serif; padding: 30px; max-width: 400px; margin: 0 auto; text-align: center; }
+        input { width: 100%; padding: 12px; margin: 15px 0; font-size: 18px; box-sizing: border-box; text-align: center; border: 2px solid #ccc; border-radius: 8px; }
+        button { width: 100%; padding: 12px; font-size: 18px; cursor: pointer; background-color: #333; color: white; border: none; border-radius: 8px; font-weight: bold; }
+        #result { margin-top: 30px; font-size: 40px; letter-spacing: 4px; color: #111; }
+    </style>
+</head>
+<body>
+    <h2>숫자 기호 변환기</h2>
+    <input type="text" id="inputBox" placeholder="입력 (예: 080908, 121315)" maxlength="6">
+    <button onclick="convert()">변환</button>
+    <div id="result"></div>
+
+    <script>
+        const symbols = ['⓪','①','②','③','④','⑤','⑥','⑦','⑧','⑨','⑩','⑪','⑫','⑬','⑭','⑮','⑯','⑰','⑱','⑲','⑳'];
+        
+        function convert() {
+            const val = document.getElementById('inputBox').value.replace(/[^0-9]/g, '');
+            let res = '';
+            for (let i = 0; i < val.length; i += 2) {
+                const num = parseInt(val.substring(i, i + 2), 10);
+                if (num >= 0 && num <= 20) {
+                    res += symbols[num];
+                }
+            }
+            document.getElementById('result').innerText = res;
+        }
+    </script>
+</body>
+</html>
